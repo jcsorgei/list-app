@@ -1,14 +1,21 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { registerAs } from '@nestjs/config';
+import { User } from '../auth/user.entity';
+import { DataSource } from 'typeorm';
 
-export default registerAs(
-  'orm.config',
-  (): TypeOrmModuleOptions => ({
-    type: 'sqlite',
-    database: 'src/data/listAppDB',
-    entities: [],
-    synchronize: false,
-    migrations: ['src/data/migrations/*.ts'],
-    migrationsTableName: 'migrations_listApp',
-  }),
-);
+export const typeOrmModuleOptions: TypeOrmModuleOptions = {
+  type: 'sqlite',
+  database: 'src/data/listAppDB.db',
+  entities: [User],
+  synchronize: false,
+};
+
+const dataSource = new DataSource({
+  type: 'sqlite',
+  database: 'src/data/listAppDB.db',
+  entities: [User],
+  synchronize: false,
+  migrations: ['src/data/migrations/*.ts'],
+  migrationsTableName: 'migrations_listApp',
+});
+
+export default dataSource;
