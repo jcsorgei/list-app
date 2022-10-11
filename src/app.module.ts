@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { typeOrmModuleOptions } from './config/orm.config';
 import { typeOrmModuleOptionsProd } from './config/orm.config .prod';
+import { ListsModule } from './lists/lists.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { typeOrmModuleOptionsProd } from './config/orm.config .prod';
           : () => ({ ...typeOrmModuleOptionsProd }),
     }),
     AuthModule,
+    ListsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

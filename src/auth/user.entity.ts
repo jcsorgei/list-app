@@ -1,5 +1,6 @@
 import { IsString, Length } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { List } from '../lists/list.entity';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -15,4 +16,7 @@ export class User {
   @Length(8)
   @IsString()
   password: string;
+
+  @ManyToMany(() => List, (list) => list.assignedUsers)
+  lists: List[];
 }
