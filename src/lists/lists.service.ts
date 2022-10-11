@@ -39,6 +39,11 @@ export class ListsService {
     return await this.listsRepository.find({ relations: { items: true } });
   }
 
+  public async assignUserToList(user: User, list: List) {
+    list.assignedUsers = [...list.assignedUsers, user];
+    return await this.listsRepository.save(list);
+  }
+
   public async addItemToList(
     list: List,
     createListItemDto: CreateListItemDto,
