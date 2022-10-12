@@ -1,5 +1,6 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   ForbiddenException,
   Get,
@@ -8,7 +9,9 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  SerializeOptions,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthGuardJwt } from 'src/auth/auth-guard.jwt';
@@ -20,6 +23,7 @@ import { CreateListDto } from './create-list.dto';
 import { ListsService } from './lists.service';
 
 @Controller('lists')
+@SerializeOptions({ strategy: 'excludeAll' })
 export class ListsController {
   constructor(
     private readonly listsService: ListsService,
@@ -28,11 +32,13 @@ export class ListsController {
   ) {}
 
   @Get()
+  @UseInterceptors(ClassSerializerInterceptor)
   async getLists() {
     return await this.listsService.getLists();
   }
 
   @Get(':id')
+  @UseInterceptors(ClassSerializerInterceptor)
   async getList(@Param('id', ParseIntPipe) id: number) {
     const list = await this.listsService.getList(id);
 
@@ -45,6 +51,7 @@ export class ListsController {
 
   @Post()
   @UseGuards(AuthGuardJwt)
+  @UseInterceptors(ClassSerializerInterceptor)
   async createList(
     @Body() createListDto: CreateListDto,
     @CurrentUser() user: User,
@@ -54,6 +61,7 @@ export class ListsController {
 
   @Put(':id')
   @UseGuards(AuthGuardJwt)
+  @UseInterceptors(ClassSerializerInterceptor)
   async addItemToList(
     @Param('id', ParseIntPipe) id: number,
     @Body() createListItemDto: CreateListItemDto,

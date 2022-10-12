@@ -1,6 +1,7 @@
 import { IsString, Length } from 'class-validator';
 import { List } from '../lists/list.entity';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Expose } from 'class-transformer';
 
 @Entity()
 export class User {

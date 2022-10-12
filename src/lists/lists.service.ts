@@ -31,7 +31,7 @@ export class ListsService {
   public async getList(id: number): Promise<List | undefined> {
     return await this.listsRepository.findOne({
       where: { id },
-      relations: { assignedUsers: true },
+      relations: { assignedUsers: true, items: true },
     });
   }
 
